@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:markdown_docs/widgets/widgets.dart';
+import 'package:markdown_widget/markdown_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -19,11 +20,15 @@ class _HomePageState extends State<HomePage> {
   final String? docsContentPath = 'assets/home_content.md';
   String? data;
 
+  final TocController tocController = TocController();
+
   @override
   void initState() {
     loadData();
     super.initState();
   }
+
+  Widget buildTocWidget() => TocWidget(controller: tocController);
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +45,15 @@ class _HomePageState extends State<HomePage> {
                   flex: 1,
                   child: Container(
                     padding: const EdgeInsets.all(20.0),
-                    child: ListView(
-                      children: const [
-                        Text('Table of Contents'),
-                        Text('Home'),
-                        Text('About'),
-                        Text('Contact'),
-                      ],
-                    ),
+                    child: Expanded(child: buildTocWidget()),
                   ),
                 ),
                 Flexible(
                   flex: 3,
                   child: Container(
                     padding: const EdgeInsets.all(20.0),
-                    child: BuildMarkdownWidget(data: data!),
+                    child: BuildMarkdownWidget(
+                        data: data!, tocController: tocController),
                   ),
                 ),
               ],
