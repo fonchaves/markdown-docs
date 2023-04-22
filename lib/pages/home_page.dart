@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:markdown_widget/widget/all.dart';
+import 'package:markdown_docs/widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+    required this.useLightMode,
+    required this.handleBrightnessChange,
+  });
+
+  final bool useLightMode;
+  final void Function(bool useLightMode) handleBrightnessChange;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -21,26 +28,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50.0),
-        child: Container(
-          height: 70.0,
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          decoration: const BoxDecoration(
-            color: Colors.black87,
-          ),
-          child: Row(
-            children: const [
-              Text('Company',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
-                      color: Colors.white)),
-              Text(' Developers',
-                  style: TextStyle(fontSize: 20.0, color: Colors.white)),
-            ],
-          ),
-        ),
+      appBar: CustomAppBar(
+        useLightMode: widget.useLightMode,
+        handleBrightnessChange: widget.handleBrightnessChange,
       ),
       body: data == null
           ? const Center(child: CircularProgressIndicator())
@@ -64,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                   flex: 3,
                   child: Container(
                     padding: const EdgeInsets.all(20.0),
-                    child: MarkdownWidget(data: data!),
+                    child: BuildMarkdownWidget(data: data!),
                   ),
                 ),
               ],
@@ -81,5 +71,55 @@ class _HomePageState extends State<HomePage> {
 
   void refresh() {
     if (mounted) setState(() {});
+  }
+}
+
+class NewWidget extends StatelessWidget {
+  const NewWidget({
+    super.key,
+    required this.widget,
+  });
+
+  final HomePage widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(50.0),
+      child: Container(
+        height: 70.0,
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        decoration: const BoxDecoration(
+          color: Colors.black87,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: const [
+                Text(
+                  'Company',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  ' Developers',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            BrightnessButton(
+              handleBrightnessChange: widget.handleBrightnessChange,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
