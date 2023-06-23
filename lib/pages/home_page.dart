@@ -30,6 +30,28 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildTocWidget() => TocWidget(controller: tocController);
 
+  // TODO: create a widget for toc list
+  // Widget buildTocListWidget({double? fontSize}) {
+  //   return Container(
+  //     width: v300,
+  //     padding: EdgeInsets.only(top: v140, left: v20),
+  //     child: TocWidget(
+  //       controller: controller,
+  //       itemBuilder: (data) {
+  //         return TocItemWidget(
+  //           isCurrent: data.index == data.currentIndex,
+  //           toc: data.toc,
+  //           fontSize: fontSize ?? v12,
+  //           onTap: () {
+  //             data.refreshIndexCallback.call(data.toc.widgetIndex);
+  //             controller.jumpToIndex(data.toc.widgetIndex);
+  //           },
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
